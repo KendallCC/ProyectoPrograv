@@ -17,9 +17,8 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { UserContext } from "../../context/UserContext";
 import { useState, useContext, useEffect } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import { MenuList } from "@mui/material";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const pages = ["Planes", "Ejercicios", "Rutinas"];
 
 function ResponsiveAppBar() {
@@ -135,48 +134,41 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {user && autorize({ allowedRoles: ["Administrador"] }) && [
-                <MenuItem
-                  key="servicios"
-                  component="a"
-                  href="/ListaServicios"
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">Servicios</Typography>
-                </MenuItem>,
-                <MenuItem
-                  key="planes"
-                  component="a"
-                  href="/listaPlanes"
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">Planes</Typography>
-                </MenuItem>,
-                <MenuItem
-                  key="ejercicios"
-                  component="a"
-                  href="/ListaEjercicios"
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">Ejercicios</Typography>
-                </MenuItem>,
-                <MenuItem
-                  key="rutinas"
-                  component="a"
-                  href="/listaRutinas"
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">Rutinas</Typography>
-                </MenuItem>,
-                <MenuItem
-                  key="actividades"
-                  component="a"
-                  href="/listaActividades"
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">Actividades</Typography>
-                </MenuItem>,
-              ]}
+              {user &&
+                autorize({ allowedRoles: ["Administrador"] }) && [
+                  <MenuItem
+                    key="servicios"
+                    component="a"
+                    href="/ListaServicios"
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">Servicios</Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="planes"
+                    component="a"
+                    href="/listaPlanes"
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">Planes</Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="ejercicios"
+                    component="a"
+                    href="/ListaEjercicios"
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">Ejercicios</Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="rutinas"
+                    component="a"
+                    href="/listaRutinas"
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">Rutinas</Typography>
+                  </MenuItem>,
+                ]}
               {user &&
                 autorize({ allowedRoles: ["Adninistrador", "Empleado"] }) && [
                   <MenuItem
@@ -187,17 +179,30 @@ function ResponsiveAppBar() {
                   >
                     <Typography textAlign="center">Actividades</Typography>
                   </MenuItem>,
-                  <MenuItem
-                    key="actividades-clientes"
-                    component="a"
-                    href="/ActividadesClientes"
-                    onClick={handleCloseNavMenu}
-                  >
-                    <Typography textAlign="center">
-                      Actividades Disponibles
-                    </Typography>
-                  </MenuItem>,
                 ]}
+
+              {user && autorize({ allowedRoles: ["Cliente"] }) && (
+                <MenuItem
+                  key="actividades-clientes"
+                  component="a"
+                  href="/ActividadesClientes"
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography textAlign="center">
+                    Actividades Disponibles
+                  </Typography>
+                </MenuItem>
+              )}
+              {!user && (
+                <MenuItem
+                  key="actividades-clientes"
+                  component="a"
+                  href="/Registro"
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography textAlign="center">Registrarse</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -278,35 +283,35 @@ function ResponsiveAppBar() {
               </>
             )}
 
-            {user &&
-              autorize({ allowedRoles: ["Empleado"] }) && (
-                <>
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-administrador"
-                    aria-haspopup="true"
-                    onClick={handleOpenMenuActividad}
-                    color="inherit"
+            {user && autorize({ allowedRoles: ["Empleado"] }) && (
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-administrador"
+                  aria-haspopup="true"
+                  onClick={handleOpenMenuActividad}
+                  color="inherit"
+                >
+                  <BadgeIcon />
+                </IconButton>
+                <Menu
+                  id="menu-administrador"
+                  anchorEl={anchorElActividad}
+                  open={Boolean(anchorElActividad)}
+                  onClose={handleCloseMenu}
+                >
+                  <MenuItem
+                    component="a"
+                    href="/listaActividades"
+                    onClick={handleCloseMenu}
                   >
-                    <BadgeIcon />
-                  </IconButton>
-                  <Menu
-                    id="menu-administrador"
-                    anchorEl={anchorElActividad}
-                    open={Boolean(anchorElActividad)}
-                    onClose={handleCloseMenu}
-                  >
-                    <MenuItem
-                      component="a"
-                      href="/listaActividades"
-                      onClick={handleCloseMenu}
-                    >
-                      Actividades
-                    </MenuItem>
-                  </Menu>
-                </>
-              )}
+                    Actividades
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -315,22 +320,58 @@ function ResponsiveAppBar() {
               onClick={handleOpenMenuRutina}
               color="inherit"
             >
-              <MenuIcon />
+              <AccountCircleIcon />
             </IconButton>
-            <Menu
-              id="menu-empleado"
+            {user && autorize({ allowedRoles: ["Empleado"] }) && (
+              <Menu
+                id="menu-empleado"
+                anchorEl={anchorElRutina}
+                open={Boolean(anchorElRutina)}
+                onClose={handleCloseMenu}
+              >
+                <MenuItem
+                  component="a"
+                  href="/ActividadesClientes"
+                  onClick={handleCloseMenu}
+                >
+                  Actividades Disponibles
+                </MenuItem>
+              </Menu>
+            )}
+            {user && autorize({ allowedRoles: ["Cliente","Empleado","Administrador"] }) && (
+              <Menu
+                id="menu-Cliente"
+                anchorEl={anchorElRutina}
+                open={Boolean(anchorElRutina)}
+                onClose={handleCloseMenu}
+              >
+                <MenuItem
+                  component="a"
+                  href="/ActividadesClientes"
+                  onClick={handleCloseMenu}
+                >
+                  Actividades Disponibles
+                </MenuItem>
+              </Menu>
+            )}
+
+            {!user&& (
+              <Menu
+              id="menu-usuario"
               anchorEl={anchorElRutina}
               open={Boolean(anchorElRutina)}
               onClose={handleCloseMenu}
             >
               <MenuItem
                 component="a"
-                href="/ActividadesClientes"
+                href="/Registro"
                 onClick={handleCloseMenu}
               >
-                Actividades Disponibles
+                Registrese
               </MenuItem>
             </Menu>
+            )}
+            
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
