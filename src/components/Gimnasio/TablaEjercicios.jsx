@@ -188,7 +188,7 @@ function TableMoviesToolbar (props) {
             id='tableTitle'
             component='div'
           >
-            Planes
+            Ejercicios
           </Typography>
           )}
 

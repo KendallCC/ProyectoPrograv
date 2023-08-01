@@ -26,18 +26,39 @@ const EjercicioDetalle = () => {
   }
 
   return (
-    <Card sx={{ maxWidth: 700, margin: 'auto', marginTop: 4 , textAlign: 'center' }}>
+    <Card sx={{ maxWidth: 700, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom sx={{fontWeight:'bolder'}}>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bolder' }}>
           {ejercicio.nombre}
         </Typography>
         <Typography variant="body1" gutterBottom>
           {ejercicio.descripcion}
         </Typography>
-        {ejercicio.imagenes_ejercicio.map((imagen, index) => (
-            
-          <CardMedia key={index} component="img" height="350" src={`data:image/jpeg;base64,${imagen.imagen_ejercicio}`} alt={`Imagen ${index + 1}`} sx={{border:'solid '}}/>
-        ))}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center', // Center horizontally
+            gap: '8px',
+            margin: 'auto',
+          }}
+        >
+          {ejercicio.imagenes_ejercicio.map((imagen, index) => (
+            <CardMedia
+              key={index}
+              component="img"
+              src={`data:image/jpeg;base64,${imagen.imagen_ejercicio}`}
+              alt={`Imagen ${index + 1}`}
+              sx={{
+                objectFit: 'contain',
+                maxWidth: '250px',
+                width: '100%',
+                height: 'auto',
+                border: 'solid',
+              }}
+            />
+          ))}
+        </div>
       </CardContent>
     </Card>
   );

@@ -186,7 +186,7 @@ function TableMoviesToolbar (props) {
             id='tableTitle'
             component='div'
           >
-            Rutinas
+            Servicios
           </Typography>
           )}
 
@@ -353,9 +353,8 @@ export default function TablaServicios () {
                           >
                             {row.id}
                           </TableCell>
-                          <TableCell align='left'>{row.id}</TableCell>
                           <TableCell align='left'>{row.nombre}</TableCell>
-                          <TableCell align='left'>{row.Descripcion}</TableCell>
+                          <TableCell align='left'>{row.descripcion}</TableCell>
                           <TableCell align='left'>{row.tipo}</TableCell>
                         </TableRow>
                       )

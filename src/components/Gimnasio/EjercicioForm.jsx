@@ -12,7 +12,10 @@ const schema = yup.object().shape({
     .string()
     .min(5, 'La descripción debe tener al menos 5 caracteres')
     .required('La descripción es requerida'),
-  equipamiento: yup.string().min(5,'El equipamiento debe tener mas de 5 caracterres').required('El equipamiento es requerido'),
+  equipamiento: yup
+    .string()
+    .min(5, 'El equipamiento debe tener más de 5 caracteres')
+    .required('El equipamiento es requerido'),
 });
 
 const EjercicioForm = () => {
@@ -21,6 +24,7 @@ const EjercicioForm = () => {
   });
 
   const [imageData, setImageData] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImageChange = async (e) => {
     try {
@@ -34,6 +38,7 @@ const EjercicioForm = () => {
       }
 
       setImageData(imageDataArray);
+      setSelectedImages(imageDataArray);
     } catch (error) {
       console.error(error);
     }
@@ -49,6 +54,13 @@ const EjercicioForm = () => {
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
+  };
+
+  const handleDeleteImage = (index) => {
+    const updatedImages = [...selectedImages];
+    updatedImages.splice(index, 1);
+    setImageData(updatedImages);
+    setSelectedImages(updatedImages);
   };
 
   const onSubmit = async (data) => {
@@ -82,7 +94,7 @@ const EjercicioForm = () => {
         border: '1px solid #ccc',
         borderRadius: '8px',
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-        marginBottom:'10rem'
+        marginBottom: '10rem',
       }}
     >
       <Typography variant="h5" align="center" sx={{ marginBottom: '16px' }}>
@@ -123,6 +135,53 @@ const EjercicioForm = () => {
             Seleccione una o varias imágenes
           </Button>
         </label>
+
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '8px',
+            maxWidth: '250px',
+            marginTop: '8px',
+          }}
+        >
+          {selectedImages.map((imageData, index) => (
+            <div
+              key={index}
+              style={{
+                position: 'relative',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                overflow: 'hidden',
+                borderRadius: '8px',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <img
+                src={`data:image/jpeg;base64,${imageData}`}
+                alt={`Imagen ${index + 1}`}
+                style={{ width: '100%', height: 'auto' }}
+              />
+              <Button
+                onClick={() => handleDeleteImage(index)}
+                variant="contained"
+                color="error"
+                size="small"
+                style={{
+                  position: 'absolute',
+                  top: '4px',
+                  right: '4px',
+                  minWidth: 'unset',
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                }}
+              >
+                X
+              </Button>
+            </div>
+          ))}
+        </div>
         {errors.imagen && (
           <Typography variant="body2" color="error">
             {errors.imagen.message}
