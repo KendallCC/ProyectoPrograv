@@ -396,7 +396,7 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleClose}>Mi Perfil</MenuItem>
+              <MenuItem component="a" href="/Usuario/Perfil">Mi Perfil</MenuItem>
 
               {!userData && (
                 <MenuList>

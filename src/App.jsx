@@ -26,6 +26,8 @@ import TablaEjercicios from './components/Gimnasio/TablaEjercicios';
 import EjercicioDetalle from './components/Gimnasio/DetalleEjercicio';
 import TablaServicios from './components/Gimnasio/TablaServicios'
 import DetalleServicio from './components/Gimnasio/DetalleServicio';
+import Miperfil from './components/Gimnasio/MiPerfil';
+import TablaClientes from './components/Gimnasio/TablaClientes';
 
 import { Login } from './components/User/Login'
 import { Logout } from './components/User/Logout'
@@ -42,6 +44,13 @@ const router=createBrowserRouter([
     path:'/',
     element: <Auth allowedRoles={['Administrador']}></Auth>,
     children:[
+
+      //Empieza Clientes
+      {
+       path:'/listaClientes',
+       element: <TablaClientes/>
+      },
+
 
       //Empieza Servicios
       {
@@ -126,6 +135,17 @@ const router=createBrowserRouter([
       }
   ]
   }
+
+,
+{ path: '/',
+  element: <Auth allowedRoles={['Administrador','Empleado','Cliente']} />,
+  children:[
+
+    {
+      path:'/Usuario/Perfil',
+      element: <Miperfil/>
+    }
+  ]}
   ,
 
   {

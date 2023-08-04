@@ -117,6 +117,7 @@ const RutinaUpdateForm = () => {
       }));
 
       const formData = {
+        id:id,
         nombre: data.nombre,
         tipo: data.tipo,
         ejercicios: ejerciciosData,
