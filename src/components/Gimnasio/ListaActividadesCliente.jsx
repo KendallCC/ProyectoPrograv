@@ -6,7 +6,7 @@ import { es } from 'date-fns/locale';
 import { List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Grid, Box } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Loader from '../others/Loader';
-
+import { toast } from 'react-hot-toast';
 const ActividadesInscritas = () => {
   const { decodeToken } = useContext(UserContext);
   const [userData, setUserData] = useState(decodeToken());
@@ -39,9 +39,11 @@ const ActividadesInscritas = () => {
           )
         );
         // Agregar lógica para manejar la cancelación exitosa si es necesario
+        toast.success('La actividad ha sido cancelada exitosamente.');
       })
       .catch((error) => {
         console.error('Error al cancelar la reserva:', error);
+        toast.error('El servicio no a podido ser cancelado');
       });
   };
 
