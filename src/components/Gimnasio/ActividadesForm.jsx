@@ -17,6 +17,8 @@ import ServiciosApi from '../../Services/serviciosApi';
 import ActividadesApi from '../../Services/ActividadesApi';
 import Loader from '../others/Loader';
 
+import { useNavigate } from 'react-router-dom'
+
 const schema = yup.object().shape({
   servicio_id: yup.number().required('Seleccione un servicio'),
   fecha: yup.date().required('La fecha es requerida').min(new Date(), 'La fecha no puede ser anterior a la fecha actual'),
@@ -32,7 +34,7 @@ const CrearActividadGrupalForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const navigate = useNavigate();
   const [servicios, setServicios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [servicio_id, setServicioId] = useState('');
@@ -57,6 +59,7 @@ const CrearActividadGrupalForm = () => {
       await ActividadesApi.createActividades(data);
       toast.success('La actividad grupal ha sido creada exitosamente.');
       setServicioId('');
+      navigate('/listaActividades')
     } catch (error) {
       console.error('Error al crear la actividad grupal:', error);
       toast.error('Error al crear la actividad grupal.');

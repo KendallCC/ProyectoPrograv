@@ -18,7 +18,7 @@ import {
 import { toast } from 'react-hot-toast';
 import PlanesApi from '../../Services/PlanesApi';
 import ServiciosApi from '../../Services/serviciosApi';
-
+import { useNavigate } from 'react-router-dom'
 const schema = yup.object().shape({
   nombre: yup.string().required('El nombre es requerido').min(5, 'El nombre debe tener al menos 5 caracteres'),
   descripcion: yup.string().required('La descripción es requerida').min(5, 'La descripción debe tener al menos 5 caracteres'),
@@ -31,7 +31,7 @@ const PlanUpdateForm = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const navigate = useNavigate();
   // Estado local para almacenar los IDs de los servicios seleccionados
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
 
@@ -81,6 +81,7 @@ const PlanUpdateForm = () => {
 
       // Mostrar un mensaje de éxito o una notificación de éxito
       toast.success('El plan ha sido actualizado exitosamente.');
+      navigate('/listaPlanes')
     } catch (error) {
       console.error('Error al actualizar el plan:', error);
       toast.error('Error al actualizar el plan.');

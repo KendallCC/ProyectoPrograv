@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { TextField, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Box } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import serviciosApi from '../../Services/serviciosApi';
-
+import { useNavigate } from 'react-router-dom'
 const schema = yup.object().shape({
   nombre: yup.string().required('El nombre es requerido'),
   descripcion: yup.string().required('La descripción es requerida'),
@@ -24,7 +24,7 @@ const FormularioServicio = () => {
   const { handleSubmit, control, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
 
   const onSubmit = async (data) => {
@@ -42,6 +42,8 @@ const FormularioServicio = () => {
           try {
             await serviciosApi.createServicios(data);
             toast.success('La actividad ha sido creada exitosamente.');
+            navigate('/ListaServicios')
+
           } catch (error) {
             console.error('Error al crear la actividad:', error);
             toast.error('Error al crear la actividad.');

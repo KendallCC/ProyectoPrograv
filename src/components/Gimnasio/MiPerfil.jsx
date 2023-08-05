@@ -17,11 +17,11 @@ const Miperfil = () => {
 
   useEffect(() => {
     const clienteid = userData.id;
-console.log(userData);
     
       ClientesApi.getEclientesId(clienteid)
         .then((response) => {
           setClienteData(response.data.results);
+          console.log(response.data.results);
         })
         .catch((error) => {
           console.error("Error fetching cliente data:", error);

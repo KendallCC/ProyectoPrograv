@@ -14,6 +14,7 @@ import * as yup from 'yup';
 import { toast } from 'react-hot-toast';
 import EjerciciosApi from '../../Services/EjerciciosApi';
 import RutinasApi from '../../Services/RutinasApi';
+import { useNavigate } from 'react-router-dom'
 
 const schema = yup.object().shape({
   nombre: yup.string().required('El nombre es requerido'),
@@ -29,7 +30,7 @@ const RutinaForm = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const navigate = useNavigate();
   const [ejercicios, setEjercicios] = useState([]);
   const [selectedEjercicioIds, setSelectedEjercicioIds] = useState([]);
 
@@ -70,6 +71,7 @@ const RutinaForm = () => {
       await RutinasApi.createRutina(formData);
 
       toast.success('Rutina creada exitosamente');
+      navigate('/listaRutinas')
     } catch (error) {
       console.error('Error creating routine:', error);
       toast.error('Hubo un error al crear la rutina');

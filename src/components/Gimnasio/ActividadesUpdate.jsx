@@ -17,6 +17,8 @@ import { toast } from 'react-hot-toast';
 import ServiciosApi from '../../Services/serviciosApi';
 import ActividadesApi from '../../Services/ActividadesApi';
 import Loader from '../others/Loader';
+import { useNavigate } from 'react-router-dom'
+
 const schema = yup.object().shape({
   id: yup.number().required('El ID es requerido'), // Agrega la validación para el ID
   servicio_id: yup.number().required('Seleccione un servicio'),
@@ -34,6 +36,7 @@ const ActualizarActividadForm = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
   });
+  const navigate = useNavigate();
 
   const [servicios, setServicios] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -81,6 +84,7 @@ const ActualizarActividadForm = () => {
     try {
       await ActividadesApi.updateActividades(data);
       toast.success('La actividad grupal ha sido actualizada exitosamente.');
+      navigate('/listaActividades')
     } catch (error) {
       console.error('Error al actualizar la actividad grupal:', error);
       toast.error('Error al actualizar la actividad grupal.');

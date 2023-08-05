@@ -6,6 +6,7 @@ import { TextField, Button, Typography, Box } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import EjerciciosApi from '../../Services/EjerciciosApi';
+import { useNavigate } from 'react-router-dom'
 
 const schema = yup.object().shape({
   nombre: yup.string().required('El nombre es requerido'),
@@ -25,6 +26,7 @@ const EjercicioUpdateForm = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
   });
+  const navigate = useNavigate();
 
   const [imageData, setImageData] = useState([]);
   const [currentImages, setCurrentImages] = useState([]);
@@ -95,6 +97,7 @@ const EjercicioUpdateForm = () => {
 
       await EjerciciosApi.updateEjercicio({ ...formData, id });
       toast.success('Ejercicio actualizado exitosamente.');
+      navigate('/ListaEjercicios')
     } catch (error) {
       console.error('Error al actualizar el ejercicio:', error);
       toast.error('Hubo un error al actualizar el ejercicio.');

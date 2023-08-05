@@ -127,6 +127,7 @@ const RutinaUpdateForm = () => {
       await RutinasApi.updateRutina(formData); // Use the updateRutina method to update the rutina
 
       toast.success('Rutina actualizada exitosamente');
+      navigate('/listaRutinas')
     } catch (error) {
       console.error('Error updating routine:', error);
       toast.error('Hubo un error al actualizar la rutina');

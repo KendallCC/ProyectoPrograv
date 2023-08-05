@@ -168,6 +168,22 @@ function ResponsiveAppBar() {
                   >
                     <Typography textAlign="center">Rutinas</Typography>
                   </MenuItem>,
+                  <MenuItem
+                  key="Clientes"
+                  component="a"
+                  href="/listaClientes"
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography textAlign="center">Clientes</Typography>
+                </MenuItem>,
+                <MenuItem
+                key="actividades"
+                component="a"
+                href="/listaActividades"
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign="center">Actividades</Typography>
+              </MenuItem>,
                 ]}
               {user &&
                 autorize({ allowedRoles: ["Adninistrador", "Empleado"] }) && [
@@ -278,6 +294,13 @@ function ResponsiveAppBar() {
                     onClick={handleCloseMenu}
                   >
                     Actividades
+                  </MenuItem>
+                  <MenuItem
+                    component="a"
+                    href="/listaClientes"
+                    onClick={handleCloseMenu}
+                  >
+                    Clientes
                   </MenuItem>
                 </Menu>
               </>
@@ -397,7 +420,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem component="a" href="/Usuario/Perfil">Mi Perfil</MenuItem>
-
+              <MenuItem component="a" href="/Usuario/ActividadesInscritas">Mi Actividades</MenuItem>
               {!userData && (
                 <MenuList>
                   <MenuItem component="a" href="/Login">

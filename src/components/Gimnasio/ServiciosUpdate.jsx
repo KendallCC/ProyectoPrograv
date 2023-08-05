@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { TextField, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Box, Typography, Card, CardContent, CardMedia } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import serviciosApi from '../../Services/serviciosApi';
-
+import { useNavigate } from 'react-router-dom'
 const schema = yup.object().shape({
   nombre: yup.string().required('El nombre es requerido'),
   descripcion: yup.string().required('La descripción es requerida'),
@@ -18,7 +18,7 @@ const FormularioServicio = () => {
   const { handleSubmit, control, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const navigate = useNavigate();
   const [servicioData, setServicioData] = React.useState(null);
   const [selectedImage, setSelectedImage] = React.useState(null);
 
@@ -53,6 +53,7 @@ const FormularioServicio = () => {
           try {
             await serviciosApi.updateServicios({ id: servicioData.id, ...data });
             toast.success('El servicio ha sido actualizado exitosamente.');
+            navigate('/ListaServicios')
           } catch (error) {
             console.error('Error al actualizar el servicio:', error);
             toast.error('Error al actualizar el servicio.');
@@ -64,6 +65,7 @@ const FormularioServicio = () => {
         try {
           await serviciosApi.updateServicios({ id: servicioData.id, ...data });
           toast.success('El servicio ha sido actualizado exitosamente.');
+          navigate('/ListaServicios')
         } catch (error) {
           console.error('Error al actualizar el servicio:', error);
           toast.error('Error al actualizar el servicio.');

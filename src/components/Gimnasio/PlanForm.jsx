@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { TextField, Button, Card, CardContent, Grid, Select, MenuItem, InputLabel, FormControl, FormHelperText } from '@mui/material';
 import PlanesApi from '../../Services/PlanesApi';
 import serviciosApi from '../../Services/serviciosApi';
+import { useNavigate } from 'react-router-dom'
 
 const schema = Yup.object().shape({
   nombre: Yup.string().required('El nombre es requerido').min(5, 'El nombre debe tener al menos 5 caracteres'),
@@ -14,6 +15,7 @@ const schema = Yup.object().shape({
 });
 
 const PlanForm = () => {
+  const navigate = useNavigate();
   const [servicios, setServicios] = useState([]);
   const [selectedServicios, setSelectedServicios] = useState([]);
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -51,6 +53,7 @@ const PlanForm = () => {
         console.log(response);
         setSelectedServicios([]); // Reset the selected services after successful submission
         reset(); // Reset the form fields to their initial values
+        
       })
       .catch(error => {
         if (error instanceof SyntaxError) {
@@ -60,6 +63,7 @@ const PlanForm = () => {
       });
       // Show a success message or toast notification
       toast.success('El plan ha sido creado exitosamente');
+      navigate('/listaPlanes')
   };
 
   return (

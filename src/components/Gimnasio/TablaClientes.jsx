@@ -72,6 +72,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: 'Nombre'
+  },
+  {
+    id: 'apellidos',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellidos'
   }
 ]
 //Construcción del Header de la tabla con sus propiedades
@@ -93,7 +99,7 @@ function TableMoviesHead (props) {
       <TableRow>
         <TableCell padding='checkbox'>
           <Tooltip title='Nuevo'>
-            <IconButton component={Link} to='/Rutina/Crear'>
+            <IconButton component={Link} to='/Cliente/Crear'>
               <AddIcon />
             </IconButton>
           </Tooltip>
@@ -187,12 +193,12 @@ function TableMoviesToolbar (props) {
             </IconButton>
           </Tooltip>
           <Tooltip title='Actualizar'>
-            <IconButton component='a' href ={`Rutina/Actualizar/`+idSelected}>
+            <IconButton component='a' href ={`Cliente/Actualizar/`+idSelected}>
               <EditIcon key={idSelected} />
             </IconButton>
           </Tooltip>
           <Tooltip title='Ver Info'>
-            <IconButton component='a' href ={`DetalleRutina/`+idSelected} >
+            <IconButton component='a' href ={`/Cliente/detalle/`+idSelected} >
               <MoreIcon key={idSelected} />
             </IconButton>
           </Tooltip>
@@ -343,7 +349,7 @@ export default function TablaClientes () {
                             {row.id}
                           </TableCell>
                           <TableCell align='left'>{row.nombre}</TableCell>
-                         
+                          <TableCell align='left'>{row.apellidos}</TableCell>
                         </TableRow>
                       )
                     })}

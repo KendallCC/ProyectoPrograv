@@ -28,6 +28,9 @@ import TablaServicios from './components/Gimnasio/TablaServicios'
 import DetalleServicio from './components/Gimnasio/DetalleServicio';
 import Miperfil from './components/Gimnasio/MiPerfil';
 import TablaClientes from './components/Gimnasio/TablaClientes';
+import DetallePerfilCliente from './components/Gimnasio/DetalleCliente';
+import ActividadesInscritas from './components/Gimnasio/ListaActividadesCliente';
+
 
 import { Login } from './components/User/Login'
 import { Logout } from './components/User/Logout'
@@ -51,7 +54,10 @@ const router=createBrowserRouter([
        element: <TablaClientes/>
       },
 
-
+      {
+        path:'/Cliente/detalle/:id',
+        element: <DetallePerfilCliente/>
+       },
       //Empieza Servicios
       {
         path:'/ListaServicios',
@@ -144,6 +150,11 @@ const router=createBrowserRouter([
     {
       path:'/Usuario/Perfil',
       element: <Miperfil/>
+    }
+    ,
+    {
+      path:'/Usuario/ActividadesInscritas',
+      element: <ActividadesInscritas/>
     }
   ]}
   ,

@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import EjerciciosApi from '../../Services/EjerciciosApi';
-
+import { useNavigate } from 'react-router-dom'
 const schema = yup.object().shape({
   nombre: yup.string().required('El nombre es requerido'),
   descripcion: yup
@@ -22,7 +22,7 @@ const EjercicioForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const navigate = useNavigate();
   const [imageData, setImageData] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -75,6 +75,7 @@ const EjercicioForm = () => {
 
       await EjerciciosApi.createEjercicio(formData);
       toast.success('Elemento creado exitosamente');
+      navigate('/ListaEjercicios')
     } catch (error) {
       toast.error('Hubo un error al crear el elemento');
     }
