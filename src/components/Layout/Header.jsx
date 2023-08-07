@@ -302,7 +302,15 @@ function ResponsiveAppBar() {
                   >
                     Clientes
                   </MenuItem>
+                  <MenuItem
+                    component="a"
+                    href="/ListaActividadesReservadas"
+                    onClick={handleCloseMenu}
+                  >
+                    Actividades Reservadas
+                  </MenuItem>
                 </Menu>
+                
               </>
             )}
 

@@ -30,6 +30,8 @@ import Miperfil from './components/Gimnasio/MiPerfil';
 import TablaClientes from './components/Gimnasio/TablaClientes';
 import DetallePerfilCliente from './components/Gimnasio/DetalleCliente';
 import ActividadesInscritas from './components/Gimnasio/ListaActividadesCliente';
+import TablaActividadesReservadas from './components/Gimnasio/TablaActividadesReservadas';
+import DetalleActividadReservada from './components/Gimnasio/DetalleActividadReservada';
 
 
 import { Login } from './components/User/Login'
@@ -103,6 +105,17 @@ const router=createBrowserRouter([
         element: <EjercicioUpdate/>
       },
       //Termina Ejercicio
+
+      //empieza Actividades Reservadas
+      {
+        path:'/ListaActividadesReservadas',
+        element: <TablaActividadesReservadas/>
+      },
+      {
+        path:'/Actividad/reservada/:id',
+        element: <DetalleActividadReservada/>
+      },
+
     ]
   },
 

@@ -27,6 +27,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import ActividadesApi from '../../Services/ActividadesApi';
 import Loader from '../others/Loader';
 import MoreIcon from '@mui/icons-material/More';
+import Button from '@mui/material/Button'; // Importar el componente Button
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -88,7 +89,7 @@ const headCells = [
     label: 'Cupos',
   },
   {
-    id: 'numClientesInscritos', // Cambio de nombre y ajustes
+    id: 'numClientesInscritos',
     numeric: true,
     disablePadding: false,
     label: 'Clientes Inscritos',
@@ -117,7 +118,7 @@ function TableMoviesHead(props) {
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
-            style={{ fontWeight: 'bold', fontSize: '1rem' }} // Estilos adicionales
+            style={{ fontWeight: 'bold', fontSize: '1rem' }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -149,7 +150,6 @@ TableMoviesHead.propTypes = {
 function TableMoviesToolbar(props) {
   const { numSelected } = props;
   const { idSelected } = props;
-  const update = () => {};
 
   return (
     <Toolbar
@@ -297,20 +297,20 @@ export default function TablaActividades() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const numericTypes = ['id', 'cupo', 'numClientesInscritos']; // Cambio de nombre
+  const numericTypes = ['id', 'cupo', 'numClientesInscritos'];
 
   const renderTableCell = (row, cell) => {
     const { id, numeric, label } = cell;
     const isNumeric = numericTypes.includes(id);
 
-    if (id === 'numClientesInscritos') { // Manejo del nuevo campo
+    if (id === 'numClientesInscritos') {
       return (
         <TableCell
           key={id}
           align={isNumeric ? 'right' : 'left'}
           style={{ fontSize: '0.9rem' }}
         >
-          {row.Clientes_Inscritos.length}
+          {row.Clientes_Activos}
         </TableCell>
       );
     }
@@ -329,6 +329,24 @@ export default function TablaActividades() {
 
   const handleSearchChange = (event) => {
     setSearchId(event.target.value);
+  };
+
+  const handleSearchById = () => {
+    const idToSearch = searchId.trim();
+
+    if (idToSearch !== '') {
+      const foundActivity = data.find((activity) => activity.id.toString() === idToSearch);
+
+      if (foundActivity) {
+        const selectedIndex = selected.indexOf(foundActivity.id);
+        setSelected(selectedIndex === -1 ? [foundActivity.id] : []);
+        setPage(0);
+      } else {
+        setSelected([]);
+      }
+    } else {
+      setSelected([]);
+    }
   };
 
   const filteredData = searchId
@@ -355,7 +373,9 @@ export default function TablaActividades() {
                 onChange={handleSearchChange}
                 style={{ marginLeft: '1rem' }}
               />
-              {/* Estilos adicionales */}
+              <Button variant="contained" onClick={handleSearchById}>
+                Buscar
+              </Button>
             </Toolbar>
             <TableContainer>
               <Table

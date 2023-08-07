@@ -24,7 +24,7 @@ const ActividadesClientes = () => {
           isAfter(parseISO(item.fecha + "T" + item.hora_inicio), new Date()) &&
           (isSameDay(parseISO(item.fecha), new Date()) || isAfter(parseISO(item.fecha), new Date())) &&
           !item.Clientes_Inscritos.includes(userData.id)&&
-          item.Clientes_Inscritos.length < item.cupo 
+          item.Clientes_Activos < item.cupo 
         );
         setData(filteredData);
         setLoaded(true);
@@ -116,7 +116,7 @@ const ActividadesClientes = () => {
                       <strong>Cupos en la actividad:</strong> {item.cupo}
                     </Typography>
                     <Typography variant="body1" component="div">
-                      <strong>Cupos Registrados:</strong> {item.Clientes_Inscritos.length}
+                      <strong>Cupos Registrados:</strong> {item.Clientes_Activos}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
