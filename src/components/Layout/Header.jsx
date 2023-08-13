@@ -184,6 +184,14 @@ function ResponsiveAppBar() {
               >
                 <Typography textAlign="center">Actividades</Typography>
               </MenuItem>,
+              <MenuItem
+              key="ReservasRutinas"
+              component="a"
+              href="/Rutina/reservadas"
+              onClick={handleCloseNavMenu}
+            >
+              <Typography textAlign="center">Historial de rutinas</Typography>
+            </MenuItem>
                 ]}
               {user &&
                 autorize({ allowedRoles: ["Adninistrador", "Empleado"] }) && [
@@ -309,6 +317,16 @@ function ResponsiveAppBar() {
                   >
                     Actividades Reservadas
                   </MenuItem>
+
+                  <MenuItem
+                    component="a"
+                    href="/Rutina/reservadas"
+                    onClick={handleCloseMenu}
+                  >
+                    Historial Rutinas
+                  </MenuItem>
+                  
+
                 </Menu>
                 
               </>
@@ -383,6 +401,16 @@ function ResponsiveAppBar() {
                 >
                   Actividades Disponibles
                 </MenuItem>
+
+                <MenuItem
+                  component="a"
+                  href="/Usuario/RutinasInscritas"
+                  onClick={handleCloseMenu}
+                >
+                  Rutinas Asignadas
+                </MenuItem>
+
+                
               </Menu>
             )}
 

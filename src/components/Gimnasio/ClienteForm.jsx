@@ -57,9 +57,6 @@ const ClienteForm = () => {
     }
   };
 
-
-
-  
   return (
     <Card variant="outlined" style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
       <Typography variant="h5" align="center" sx={{ marginBottom: '16px' }}>

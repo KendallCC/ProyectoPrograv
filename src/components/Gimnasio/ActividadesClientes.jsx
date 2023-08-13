@@ -7,33 +7,47 @@ import { format, parseISO, isAfter, isSameDay } from "date-fns";
 import { es } from "date-fns/locale";
 import ActividadesApi from "../../Services/ActividadesApi";
 import ActividadesReservasApi from "../../Services/ActividadesReservasApi";
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from "../../context/UserContext";
 import { toast } from "react-hot-toast";
 import Loader from "../others/Loader";
+import PlanesApi from "../../Services/PlanesApi";
+
 const ActividadesClientes = () => {
-  const [data, setData] = useState([]);
-  const [loaded, setLoaded] = useState(false);
   const { decodeToken } = useContext(UserContext);
   const [userData, setUserData] = useState(decodeToken());
+  const [loaded, setLoaded] = useState(false);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    ActividadesApi.getActividades()
-      .then((response) => {
-        console.log(response.data.results);
-        const filteredData = response.data.results.filter(item =>
-          isAfter(parseISO(item.fecha + "T" + item.hora_inicio), new Date()) &&
-          (isSameDay(parseISO(item.fecha), new Date()) || isAfter(parseISO(item.fecha), new Date())) &&
-          !item.Clientes_Inscritos.includes(userData.id)&&
-          item.Clientes_Activos < item.cupo 
+    const fetchData = async () => {
+      try {
+        const response = await ActividadesApi.getActividades();
+        const serviciosResponse = await PlanesApi.obtenerplanesServiciosporClienteid(
+          userData.id
         );
+        const serviciosAsociados = serviciosResponse.data.results.map((servicio) => servicio.id);
+
+        const filteredData = response.data.results.filter(
+          (item) =>
+            isAfter(parseISO(item.fecha + "T" + item.hora_inicio), new Date()) &&
+            (isSameDay(parseISO(item.fecha), new Date()) ||
+              isAfter(parseISO(item.fecha), new Date())) &&
+            !item.Clientes_Inscritos.includes(userData.id) &&
+            item.Clientes_Activos < item.cupo &&
+            serviciosAsociados.includes(item.servicio_id)
+        );
+
         setData(filteredData);
         setLoaded(true);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+
+    fetchData();
   }, [userData]);
 
+ 
   const handleReserva = (actividadId) => {
     const reservaData = {
       actividad_id: actividadId,
@@ -42,12 +56,9 @@ const ActividadesClientes = () => {
 
     ActividadesReservasApi.createReservas(reservaData)
       .then((response) => {
-        console.log("Reserva realizada:", response.data);
-        // Actualizar el estado para que no se muestre la actividad reservada
-        const updatedData = data.filter(item => item.id !== actividadId);
+        const updatedData = data.filter((item) => item.id !== actividadId);
         setData(updatedData);
-        // Agregar lógica para manejar la reserva exitosa si es necesario
-        toast.success('Se a registrado con exito en la actividad')
+        toast.success("Se ha registrado con éxito en la actividad.");
       })
       .catch((error) => {
         console.error("Error al realizar la reserva:", error);
@@ -104,7 +115,11 @@ const ActividadesClientes = () => {
                   <CardContent>
                     <Typography variant="body1" component="div">
                       <strong>Fecha de la Actividad:</strong>{" "}
-                      {format(parseISO(item.fecha), "EEEE d 'de' MMMM 'de' yyyy", { locale: es })}
+                      {format(
+                        parseISO(item.fecha),
+                        "EEEE d 'de' MMMM 'de' yyyy",
+                        { locale: es }
+                      )}
                     </Typography>
                     <Typography variant="body1" component="div">
                       <strong>Hora de inicio:</strong> {item.hora_inicio}
@@ -116,12 +131,24 @@ const ActividadesClientes = () => {
                       <strong>Cupos en la actividad:</strong> {item.cupo}
                     </Typography>
                     <Typography variant="body1" component="div">
-                      <strong>Cupos Registrados:</strong> {item.Clientes_Activos}
+                      <strong>Cupos Registrados:</strong>{" "}
+                      {item.Clientes_Activos}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <Box sx={{ display: "flex", justifyContent: "center", marginTop: "auto", padding: 2 }}>
-                  <Button variant="contained" color="primary" onClick={() => handleReserva(item.id)}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "auto",
+                    padding: 2,
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleReserva(item.id)}
+                  >
                     Reservar
                   </Button>
                 </Box>
@@ -130,7 +157,7 @@ const ActividadesClientes = () => {
           ))}
         </Grid>
       ) : (
-        <Loader/>
+        <Loader />
       )}
     </>
   );

@@ -1,11 +1,18 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import PlanesApi from "../../Services/PlanesApi";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Loader from "../others/Loader";
-import { Box, Card, CardContent, Typography } from "@mui/material";
-
-//del menu desplegable
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Stack,
+} from "@mui/material";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -16,31 +23,29 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
-
-//del boton de contrato
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import PlanesApi from "../../Services/PlanesApi";
+import { UserContext } from "../../context/UserContext";
+import Loader from "../others/Loader";
 
 export function DetallePlan() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
-
-  //servicios
-  const [servicios, setServicios] = useState([]);
-
-  //del menu
-  const [open, setOpen] = React.useState(true);
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const [open, setOpen] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const routeParams = useParams();
+  const navigate = useNavigate();
+  const { decodeToken } = React.useContext(UserContext);
+  const [userData, setUserData] = useState(decodeToken());
+
+  const [servicios, setServicios] = useState([]);
 
   useEffect(() => {
     PlanesApi.getPlanById(routeParams.id)
       .then((response) => {
-        console.log(response.data.results);
         setData(response.data.results);
         setError(response.error);
         setLoaded(true);
@@ -53,6 +58,62 @@ export function DetallePlan() {
         }
       });
   }, [routeParams.id]);
+
+  const handleOpenModal = () => {
+    PlanesApi.getPlanesClientebyidCliente(userData.id)
+      .then((response) => {
+        const activePlan = response.data.results.find(plan => plan.estado_Plan === "Activo");
+        if (activePlan) {
+          toast.error("Primero debe desuscribirse de su plan actual.");
+        } else {
+          setOpenModal(true);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 400) {
+          // Si el error es debido a que no se encontraron planes activos, permite la contratación
+          setOpenModal(true);
+        } else {
+          console.log(error);
+          toast.error("Ocurrió un error al verificar el plan actual del usuario.");
+        }
+      });
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleConfirmContratacion = () => {
+    setOpenModal(false);
+
+    const fechaActual = new Date();
+    fechaActual.setDate(fechaActual.getDate() + 30);
+    const año = fechaActual.getFullYear();
+    const mes = ("0" + (fechaActual.getMonth() + 1)).slice(-2);
+    const dia = ("0" + fechaActual.getDate()).slice(-2);
+    const fechaEn30Dias = `${año}-${mes}-${dia}`;
+
+    const Contratacion = {
+      cliente_id: userData.id,
+      plan_id: routeParams.id,
+      fecha_vigencia: fechaEn30Dias,
+      estado_Plan: "Activo",
+    };
+
+    PlanesApi.ContratarPlan(Contratacion)
+      .then((respuesta) => {
+        toast.success("Plan contratado exitosamente!");
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          plan_id: routeParams.id,
+        }));
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Ocurrió un error al contratar el plan.");
+      });
+  };
 
   return (
     <>
@@ -100,7 +161,7 @@ export function DetallePlan() {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
               >
-                <ListItemButton onClick={handleClick}>
+                <ListItemButton onClick={() => setOpen(!open)}>
                   <ListItemIcon>
                     <InboxIcon />
                   </ListItemIcon>
@@ -120,12 +181,52 @@ export function DetallePlan() {
                   </List>
                 </Collapse>
               </List>
+              {userData ? (
+                <Stack direction="row" spacing={4} sx={{ marginTop: "2rem" }}>
+                  {userData.plan_id ? (
+                    <Typography variant="body1">
+                      Ya tiene un plan activo. No puede contratar otro plan.
+                    </Typography>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleOpenModal}
+                    >
+                      Contratar Plan
+                    </Button>
+                  )}
+                </Stack>
+              ) : (
+                <Stack direction="row" spacing={4} sx={{ marginTop: "2rem" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      navigate("/Registro");
+                    }}
+                  >
+                    Registrate
+                  </Button>
+                </Stack>
+              )}
 
-              <Stack direction="row" spacing={4} sx={{ marginTop: "2rem" }}>
-                <Button variant="contained" color="secondary">
-                  Contratar Plan
-                </Button>
-              </Stack>
+              <Dialog open={openModal} onClose={handleCloseModal}>
+                <DialogTitle>Confirmar Contratación</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    ¿Está seguro que desea contratar este plan?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseModal} color="primary">
+                    Cancelar
+                  </Button>
+                  <Button onClick={handleConfirmContratacion} color="primary">
+                    Confirmar
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </CardContent>
           </Card>
         </Box>

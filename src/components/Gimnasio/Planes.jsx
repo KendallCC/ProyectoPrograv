@@ -5,9 +5,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+
+
+
 export default function Planes(props) {
 
-const {Plan,imagen,Descripcion,id} = props
+const {Plan,imagen,id} = props
 
   return (
     <Card sx={{ maxWidth: 345 }}>
