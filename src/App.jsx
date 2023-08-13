@@ -36,6 +36,10 @@ import DetalleReservaCliente from "./components/Gimnasio/DetalleRutinaReservada"
 import ActualizarReservaRutina from "./components/Gimnasio/ActualizarReservaRutina";
 import ReservarRutina from "./components/Gimnasio/ClienteRutina";
 import RutinasAsignadas from "./components/Gimnasio/DetalleRutinasClientes";
+import PlanCliente from "./components/Gimnasio/MiPlan";
+//finales
+
+import TablaHistorialPlanes from "./components/Gimnasio/TablaHistorialPLanes";
 
 import { Login } from "./components/User/Login";
 import { Logout } from "./components/User/Logout";
@@ -52,6 +56,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <Auth allowedRoles={["Administrador"]}></Auth>,
     children: [
+      
+      {
+        path: "/Usuario/ActualizarPlan",
+        element: <PlanCliente />,
+      }
+      ,
+      
       //Empieza Clientes
       {
         path: "/listaClientes",
@@ -134,6 +145,14 @@ const router = createBrowserRouter([
         path: "/Rutina/reservar",
         element: <ReservarRutina />,
       },
+
+      {
+        path: "/Planes/Reservados",
+        element: <TablaHistorialPlanes />,
+      },
+
+
+      
     ],
   },
 

@@ -27,18 +27,22 @@ class ListadoPlanes{
         return axios.post(BASE_URL+ '/reservasCliente/' , idcliente)
     }
 
-    ActualizarReservaplan(planid){
-        return axios.post(BASE_URL+ '/ActualizarReservaPlan/' , planid)
+    ActualizarReservaplan(plan){
+        return axios.post(BASE_URL+ '/ActualizarReservaPlan/' , plan)
     }
 
     obtenerplanesServiciosporClienteid(cliente){
         return axios.post(BASE_URL+ '/planesServiciosporidCliente/' , cliente)
     }
 
-    obtenerHistorialPLanes(){
+    obtenerHistorialPlanes(){
         return axios.post(BASE_URL+ '/HistorialPlanes/')
     }
-//TODO HistorialPlanes  
+
+
+
+
+    //TODO HistorialPlanes  
 
 
 }

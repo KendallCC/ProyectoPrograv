@@ -456,7 +456,8 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem component="a" href="/Usuario/Perfil">Mi Perfil</MenuItem>
-              <MenuItem component="a" href="/Usuario/ActividadesInscritas">Mi Actividades</MenuItem>
+              <MenuItem component="a" href="/Usuario/ActividadesInscritas">Mis Actividades</MenuItem>
+              <MenuItem component="a" href="/Usuario/ActualizarPlan">Mi plan</MenuItem>
               {!userData && (
                 <MenuList>
                   <MenuItem component="a" href="/Login">

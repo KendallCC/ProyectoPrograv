@@ -62,7 +62,9 @@ export function DetallePlan() {
   const handleOpenModal = () => {
     PlanesApi.getPlanesClientebyidCliente(userData.id)
       .then((response) => {
+        console.log(response);
         const activePlan = response.data.results.find(plan => plan.estado_Plan === "Activo");
+        console.log('Active plan:',activePlan);
         if (activePlan) {
           toast.error("Primero debe desuscribirse de su plan actual.");
         } else {
@@ -103,6 +105,7 @@ export function DetallePlan() {
 
     PlanesApi.ContratarPlan(Contratacion)
       .then((respuesta) => {
+        console.log(respuesta);
         toast.success("Plan contratado exitosamente!");
         setUserData((prevUserData) => ({
           ...prevUserData,
