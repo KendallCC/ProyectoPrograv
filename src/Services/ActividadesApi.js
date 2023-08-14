@@ -16,6 +16,11 @@ class ActividadesApi{
     updateActividades(plan){
         return axios.put(BASE_URL, plan);
     }
+
+    DatosTablaGrupal(fechas){
+        return axios.post(BASE_URL+'/DatosTabla/',fechas)
+    }
+
 }
 
 export default new ActividadesApi();

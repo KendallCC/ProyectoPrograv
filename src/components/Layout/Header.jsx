@@ -325,8 +325,24 @@ function ResponsiveAppBar() {
                   >
                     Historial Rutinas
                   </MenuItem>
-                  
 
+                  <MenuItem
+                    component="a"
+                    href="/Actividades/Grafico"
+                    onClick={handleCloseMenu}
+                  >
+                    Reporte
+                  </MenuItem>
+
+
+                  <MenuItem
+                    component="a"
+                    href="/ListaPagos"
+                    onClick={handleCloseMenu}
+                  >
+                    Pagos realizados
+                  </MenuItem>
+                  
                 </Menu>
                 
               </>

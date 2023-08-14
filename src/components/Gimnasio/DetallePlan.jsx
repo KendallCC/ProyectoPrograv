@@ -35,7 +35,7 @@ export function DetallePlan() {
   const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-
+  const [precio, setprecio]=useState(0)
   const routeParams = useParams();
   const navigate = useNavigate();
   const { decodeToken } = React.useContext(UserContext);
@@ -47,6 +47,7 @@ export function DetallePlan() {
     PlanesApi.getPlanById(routeParams.id)
       .then((response) => {
         setData(response.data.results);
+        setprecio((response.data.results.precio + 2000))
         setError(response.error);
         setLoaded(true);
         setServicios(response.data.results.servicios);
@@ -76,7 +77,6 @@ export function DetallePlan() {
           // Si el error es debido a que no se encontraron planes activos, permite la contratación
           setOpenModal(true);
         } else {
-          console.log(error);
           toast.error("Ocurrió un error al verificar el plan actual del usuario.");
         }
       });
@@ -95,12 +95,14 @@ export function DetallePlan() {
     const mes = ("0" + (fechaActual.getMonth() + 1)).slice(-2);
     const dia = ("0" + fechaActual.getDate()).slice(-2);
     const fechaEn30Dias = `${año}-${mes}-${dia}`;
-
+    const precioFinal=parseFloat(precio)+2000;
+    console.log(precioFinal);
     const Contratacion = {
       cliente_id: userData.id,
       plan_id: routeParams.id,
       fecha_vigencia: fechaEn30Dias,
       estado_Plan: "Activo",
+      precio:precioFinal
     };
 
     PlanesApi.ContratarPlan(Contratacion)
@@ -116,6 +118,10 @@ export function DetallePlan() {
         console.log(error);
         toast.error("Ocurrió un error al contratar el plan.");
       });
+
+
+
+
   };
 
   return (
@@ -218,7 +224,7 @@ export function DetallePlan() {
                 <DialogTitle>Confirmar Contratación</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    ¿Está seguro que desea contratar este plan?
+                    ¿Está seguro que desea contratar este plan por un precio de {data.precio} más 2000 de costo de inscripcion?
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
