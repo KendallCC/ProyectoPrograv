@@ -63,12 +63,29 @@ const headCells = [
     disablePadding: true,
     label: 'ID',
   },
+
+  {
+    id: 'nombre_rutina',
+    numeric: false,
+    disablePadding: true,
+    label: 'Rutina',
+  },
+
   {
     id: 'idRutinaID',
     numeric: false,
     disablePadding: true,
     label: 'RutinaID',
   },
+
+
+  {
+    id: 'nombre_cliente',
+    numeric: false,
+    disablePadding: true,
+    label: 'Cliente',
+  },
+
   {
     id: 'id_cliente',
     numeric: false,
@@ -80,13 +97,7 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: 'estado',
-  },
-  {
-    id: 'nombre_rutina',
-    numeric: false,
-    disablePadding: false,
-    label: 'Nombre',
-  },
+  }
 ];
 
 function TableMoviesHead(props) {
@@ -331,10 +342,11 @@ export default function TablaHistorialRutinas() {
                           >
                             {row.id}
                           </TableCell>
+                          <TableCell align='left'>{row.nombre_rutina}</TableCell>
                           <TableCell align='left'>{row.id_rutina}</TableCell>
+                          <TableCell align='left'>{row.nombre_cliente}</TableCell>
                           <TableCell align='left'>{row.id_cliente}</TableCell>
                           <TableCell align='left'>{row.estado}</TableCell>
-                          <TableCell align='left'>{row.nombre_rutina}</TableCell>
                         </TableRow>
                       );
                     })}

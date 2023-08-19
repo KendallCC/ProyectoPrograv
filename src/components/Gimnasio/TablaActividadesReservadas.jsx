@@ -69,11 +69,26 @@ const headCells = [
     label: 'Id'
   },
   {
+    id: 'nombre_servicio',
+    numeric: false,
+    disablePadding: false,
+    label: 'Actividad'
+  }
+  ,
+  {
     id: 'actividad_grupal_id',
     numeric: false,
     disablePadding: false,
     label: 'ID Actividad'
-  }, {
+  }, 
+  {
+    id: 'nombre_cliente',
+    numeric: false,
+    disablePadding: false,
+    label: 'Cliente'
+  }
+  ,
+  {
     id: 'cliente_id',
     numeric: false,
     disablePadding: false,
@@ -340,7 +355,9 @@ export default function TablaActividadesReservadas () {
                           >
                             {row.id}
                           </TableCell>
+                          <TableCell align='left'>{row.nombre_servicio}</TableCell>
                           <TableCell align='left'>{row.actividad_grupal_id}</TableCell>
+                          <TableCell align='left'>{row.nombre_cliente}</TableCell>
                           <TableCell align='left'>{row.cliente_id}</TableCell>
                           <TableCell align='left'>{row.estado}</TableCell>
                         </TableRow>

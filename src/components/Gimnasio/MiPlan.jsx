@@ -44,7 +44,7 @@ const PlanCliente = () => {
       {planCliente ? (
         <div>
           <Typography variant="h6">Plan Asignado al Cliente</Typography>
-          <Typography>Plan ID: {planCliente.plan_id}</Typography>
+          <Typography>Nombre del Plan: {planCliente.nombre_plan}</Typography>
           <Typography>Fecha Vigencia: {planCliente.fecha_vigencia}</Typography>
           <Typography>Estado: {planCliente.estado_Plan}</Typography>
           {planCliente.estado_Plan === "Activo" && (

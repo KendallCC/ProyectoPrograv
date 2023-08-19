@@ -246,7 +246,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            Program Gym
+            Semiramis
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {user && autorize({ allowedRoles: ["Administrador"] }) && (
