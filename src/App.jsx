@@ -39,6 +39,8 @@ import RutinasAsignadas from "./components/Gimnasio/DetalleRutinasClientes";
 import PlanCliente from "./components/Gimnasio/MiPlan";
 import ActivityParticipantsChart from "./components/Gimnasio/GraficoActividadesGrupales";
 import TablaPagos from "./components/Gimnasio/TablaPagos";
+import ActualizarRol from "./components/Gimnasio/ActualizarRolCliente";
+import ActualizarUsuario from "./components/Gimnasio/ActualizarCliente";
 //finales
 
 import TablaHistorialPlanes from "./components/Gimnasio/TablaHistorialPLanes";
@@ -58,8 +60,15 @@ const router = createBrowserRouter([
     path: "/",
     element: <Auth allowedRoles={["Administrador"]}></Auth>,
     children: [
-      
-      
+      {
+        path: "/Cliente/Actualizar/:id",
+        element: <ActualizarUsuario/>,
+      }
+      ,
+      {
+        path: "/Cliente/Actualizarrol/:id",
+        element: <ActualizarRol/>,
+      }
       ,
       {
         path: "/ListaPagos",

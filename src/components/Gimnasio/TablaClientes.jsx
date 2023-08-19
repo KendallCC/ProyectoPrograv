@@ -27,7 +27,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import ClientesApi from '../../Services/ClientesApi'
 import Loader from '../others/Loader'
 import MoreIcon from '@mui/icons-material/More';
-
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 function descendingComparator (a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1
@@ -78,6 +78,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: 'Apellidos'
+  },
+  {
+    id: 'rol',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rol'
   }
 ]
 //Construcción del Header de la tabla con sus propiedades
@@ -98,11 +104,7 @@ function TableMoviesHead (props) {
     <TableHead>
       <TableRow>
         <TableCell padding='checkbox'>
-          <Tooltip title='Nuevo'>
-            <IconButton component={Link} to='/Cliente/Crear'>
-              <AddIcon />
-            </IconButton>
-          </Tooltip>
+          
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -192,11 +194,17 @@ function TableMoviesToolbar (props) {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title='Actualizar'>
+          <Tooltip title='Actualizar rol'>
+            <IconButton component='a' href ={`Cliente/Actualizarrol/`+idSelected}>
+              <BorderColorIcon key={idSelected} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Actualizar Cliente'>
             <IconButton component='a' href ={`Cliente/Actualizar/`+idSelected}>
               <EditIcon key={idSelected} />
             </IconButton>
           </Tooltip>
+
           <Tooltip title='Ver Info'>
             <IconButton component='a' href ={`/Cliente/detalle/`+idSelected} >
               <MoreIcon key={idSelected} />
@@ -350,6 +358,7 @@ export default function TablaClientes () {
                           </TableCell>
                           <TableCell align='left'>{row.nombre}</TableCell>
                           <TableCell align='left'>{row.apellidos}</TableCell>
+                          <TableCell align='left'>{row.rol}</TableCell>
                         </TableRow>
                       )
                     })}

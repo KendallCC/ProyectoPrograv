@@ -19,10 +19,13 @@ class ClientesApi {
     return axios.put(BASE_URL, cliente);
   }
 
-  loginUser(User){
-    return axios.post(BASE_URL+ '/login/', User);
-}
+  loginUser(User) {
+    return axios.post(BASE_URL + "/login/", User);
+  }
 
+  RolUser(roles) {
+    return axios.post(BASE_URL + "/rol/", roles);
+  }
 }
 
 export default new ClientesApi();

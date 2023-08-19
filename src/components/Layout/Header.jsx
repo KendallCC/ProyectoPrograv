@@ -18,7 +18,7 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import { UserContext } from "../../context/UserContext";
 import { useState, useContext, useEffect } from "react";
 import { MenuList } from "@mui/material";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const pages = ["Planes", "Ejercicios", "Rutinas"];
 
 function ResponsiveAppBar() {
@@ -169,29 +169,31 @@ function ResponsiveAppBar() {
                     <Typography textAlign="center">Rutinas</Typography>
                   </MenuItem>,
                   <MenuItem
-                  key="Clientes"
-                  component="a"
-                  href="/listaClientes"
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">Clientes</Typography>
-                </MenuItem>,
-                <MenuItem
-                key="actividades"
-                component="a"
-                href="/listaActividades"
-                onClick={handleCloseNavMenu}
-              >
-                <Typography textAlign="center">Actividades</Typography>
-              </MenuItem>,
-              <MenuItem
-              key="ReservasRutinas"
-              component="a"
-              href="/Rutina/reservadas"
-              onClick={handleCloseNavMenu}
-            >
-              <Typography textAlign="center">Historial de rutinas</Typography>
-            </MenuItem>
+                    key="Clientes"
+                    component="a"
+                    href="/listaClientes"
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">Clientes</Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="actividades"
+                    component="a"
+                    href="/listaActividades"
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">Actividades</Typography>
+                  </MenuItem>,
+                  <MenuItem
+                    key="ReservasRutinas"
+                    component="a"
+                    href="/Rutina/reservadas"
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">
+                      Historial de rutinas
+                    </Typography>
+                  </MenuItem>,
                 ]}
               {user &&
                 autorize({ allowedRoles: ["Adninistrador", "Empleado"] }) && [
@@ -246,7 +248,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            Semiramis
+             Program Gym
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {user && autorize({ allowedRoles: ["Administrador"] }) && (
@@ -334,7 +336,6 @@ function ResponsiveAppBar() {
                     Reporte
                   </MenuItem>
 
-
                   <MenuItem
                     component="a"
                     href="/ListaPagos"
@@ -342,9 +343,7 @@ function ResponsiveAppBar() {
                   >
                     Pagos realizados
                   </MenuItem>
-                  
                 </Menu>
-                
               </>
             )}
 
@@ -403,50 +402,50 @@ function ResponsiveAppBar() {
                 </MenuItem>
               </Menu>
             )}
-            {user && autorize({ allowedRoles: ["Cliente","Empleado","Administrador"] }) && (
+            {user &&
+              autorize({
+                allowedRoles: ["Cliente", "Empleado", "Administrador"],
+              }) && (
+                <Menu
+                  id="menu-Cliente"
+                  anchorEl={anchorElRutina}
+                  open={Boolean(anchorElRutina)}
+                  onClose={handleCloseMenu}
+                >
+                  <MenuItem
+                    component="a"
+                    href="/ActividadesClientes"
+                    onClick={handleCloseMenu}
+                  >
+                    Actividades Disponibles
+                  </MenuItem>
+
+                  <MenuItem
+                    component="a"
+                    href="/Usuario/RutinasInscritas"
+                    onClick={handleCloseMenu}
+                  >
+                    Rutinas Asignadas
+                  </MenuItem>
+                </Menu>
+              )}
+
+            {!user && (
               <Menu
-                id="menu-Cliente"
+                id="menu-usuario"
                 anchorEl={anchorElRutina}
                 open={Boolean(anchorElRutina)}
                 onClose={handleCloseMenu}
               >
                 <MenuItem
                   component="a"
-                  href="/ActividadesClientes"
+                  href="/Registro"
                   onClick={handleCloseMenu}
                 >
-                  Actividades Disponibles
+                  Registrese
                 </MenuItem>
-
-                <MenuItem
-                  component="a"
-                  href="/Usuario/RutinasInscritas"
-                  onClick={handleCloseMenu}
-                >
-                  Rutinas Asignadas
-                </MenuItem>
-
-                
               </Menu>
             )}
-
-            {!user&& (
-              <Menu
-              id="menu-usuario"
-              anchorEl={anchorElRutina}
-              open={Boolean(anchorElRutina)}
-              onClose={handleCloseMenu}
-            >
-              <MenuItem
-                component="a"
-                href="/Registro"
-                onClick={handleCloseMenu}
-              >
-                Registrese
-              </MenuItem>
-            </Menu>
-            )}
-            
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -471,9 +470,6 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem component="a" href="/Usuario/Perfil">Mi Perfil</MenuItem>
-              <MenuItem component="a" href="/Usuario/ActividadesInscritas">Mis Actividades</MenuItem>
-              <MenuItem component="a" href="/Usuario/ActualizarPlan">Mi plan</MenuItem>
               {!userData && (
                 <MenuList>
                   <MenuItem component="a" href="/Login">
@@ -486,6 +482,15 @@ function ResponsiveAppBar() {
               )}
               {userData && (
                 <MenuList>
+                  <MenuItem component="a" href="/Usuario/Perfil">
+                    Mi Perfil
+                  </MenuItem>
+                  <MenuItem component="a" href="/Usuario/ActividadesInscritas">
+                    Mis Actividades
+                  </MenuItem>
+                  <MenuItem component="a" href="/Usuario/ActualizarPlan">
+                    Mi plan
+                  </MenuItem>
                   <MenuItem>
                     <Typography variant="subtitle1" gutterBottom>
                       {userData?.correo_electronico}
